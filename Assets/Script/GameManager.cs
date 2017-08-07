@@ -18,7 +18,10 @@ public class GameManager : MonoBehaviour {
 
         platformList = new ArrayList();
         foreach (Platform obj in platforms)
+        {
             platformList.Add(obj);
+            obj.reset();
+        }
     }
 	
 	// Update is called once per frame
@@ -72,35 +75,31 @@ public class GameManager : MonoBehaviour {
         Platform platform = platformList[0] as Platform;
         if(platform.isPlayerPass())
         {
-            Debug.Log("hehe");
             int diretion = Random.value < 0.5 ? -1 : 1;
-            Platform next = platformList[1] as Platform;
-            platform.transform.position = getNextPlatformPosition(next, diretion);
+            Platform last = platformList[platformList.Count - 1] as Platform;
+            platform.transform.localPosition = getNextPlatformPosition(last, diretion);        
             platform.reset();
-            platform.transform.localEulerAngles = new Vector3(0, platform.transform.localEulerAngles.y + diretion * 90, 0);
+            platform.SetDiretion(last.GetDiretion() + diretion);
             platformList.Remove(platform);
             platformList.Add(platform);
         }
     }
 
-    private Vector3 getNextPlatformPosition(Platform next,int diretionMark)
+    private Vector3 getNextPlatformPosition(Platform last,int diretionMark)
     {
-        Vector3 size = next.transform.Find("Ground").GetComponent<MeshFilter>().mesh.bounds.size;
-        Debug.Log(size);
-        Debug.Log(next.transform.localScale);
-        float width = size.x * next.transform.localScale.x;
-        float length = size.z * next.transform.localScale.z;
-        float d = length / 2 - width / 2;
-        Debug.Log(d);
+        Vector3 size = last.transform.Find("Ground").GetComponent<MeshRenderer>().bounds.size;
+        float width = size.x * last.transform.localScale.x;
+        float length = size.z * last.transform.localScale.z;
+        float d = Mathf.Abs(length / 2 - width / 2);
         Vector3 result = new Vector3();
-        if(next.transform.localEulerAngles.y == 0)
-            result = new Vector3(next.transform.position.x + diretionMark * d, 0, next.transform.position.z + d);
-        else if (next.transform.localEulerAngles.y == 90)
-            result = new Vector3(next.transform.position.x + d, 0, next.transform.position.z - diretionMark * d);
-        else if (next.transform.localEulerAngles.y == 180)
-            result = new Vector3(next.transform.position.x - diretionMark * d, 0, next.transform.position.z - d);
-        else if (next.transform.localEulerAngles.y == 270)
-            result = new Vector3(next.transform.position.x - d, 0, next.transform.position.z + diretionMark * d);
+        if (last.GetDiretion() == 0)
+            result = new Vector3(last.transform.position.x + diretionMark * d, 0, last.transform.position.z + d);
+        else if (last.GetDiretion() == 1)
+            result = new Vector3(last.transform.position.x + d, 0, last.transform.position.z - diretionMark * d);
+        else if (last.GetDiretion() == 2)
+            result = new Vector3(last.transform.position.x - diretionMark * d, 0, last.transform.position.z - d);
+        else if (last.GetDiretion() == 3)
+            result = new Vector3(last.transform.position.x - d, 0, last.transform.position.z + diretionMark * d);
         return result;
     }
 }

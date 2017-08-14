@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        followCamera.transform.parent = player.transform;
+        followCamera.transform.SetParent(player.transform);
 
         platformList = new ArrayList();
         foreach (Platform obj in platforms)
@@ -87,9 +87,9 @@ public class GameManager : MonoBehaviour {
 
     private Vector3 getNextPlatformPosition(Platform last,int diretionMark)
     {
-        Vector3 size = last.transform.Find("Ground").GetComponent<MeshRenderer>().bounds.size;
-        float width = size.x * last.transform.localScale.x;
-        float length = size.z * last.transform.localScale.z;
+        Vector3 size = last.getSize();
+        float width = size.x;
+        float length = size.z;
         float d = Mathf.Abs(length / 2 - width / 2);
         Vector3 result = new Vector3();
         if (last.GetDiretion() == 0)

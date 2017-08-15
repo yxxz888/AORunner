@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
@@ -8,9 +9,14 @@ public class GameManager : MonoBehaviour {
     public Camera followCamera;
     public GameObject ui;
     public Platform[] platforms;
+    public Text TxtScore;
+
+    public int ScorePerMoneyBag = 100;
 
     private ArrayList platformList;
     private bool isStart = false;
+
+    private float Score;
 
 	// Use this for initialization
 	void Start () {
@@ -22,6 +28,8 @@ public class GameManager : MonoBehaviour {
             platformList.Add(obj);
             obj.reset();
         }
+
+        EventDispatcher.Instance.AddEventListener(EventDispatcher.OnPickMoneyBag, onPickMoneyBag);
     }
 	
 	// Update is called once per frame
@@ -49,7 +57,11 @@ public class GameManager : MonoBehaviour {
         player.forward();
 
         checkPlatformReuse();
+
+        Score += Time.deltaTime * 10;
+        setTextScore();
     }
+
 
     private bool checkStartGame()
     {
@@ -101,5 +113,19 @@ public class GameManager : MonoBehaviour {
         else if (last.GetDiretion() == 3)
             result = new Vector3(last.transform.position.x - d, 0, last.transform.position.z + diretionMark * d);
         return result;
+    }
+
+
+    private void onPickMoneyBag(Object param)
+    {
+        Debug.Log("hehe");
+        Score += ScorePerMoneyBag;
+        setTextScore();
+    }
+
+
+    private void setTextScore()
+    {
+        TxtScore.text = (int)Score + "";
     }
 }

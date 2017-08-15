@@ -106,6 +106,5 @@ public class Player : MonoBehaviour {
     {
         isGround = false;
         animator.SetBool("Grounded", false);
-
     }
 }

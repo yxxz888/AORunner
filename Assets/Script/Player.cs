@@ -29,7 +29,7 @@ public class Player : MonoBehaviour {
             transform.Translate(0, -0.1f, 0);
         else if (isMoving)
         {
-            curRotation = Mathf.Lerp(curRotation, targetRotation, Time.deltaTime * 30);
+            curRotation = Mathf.Lerp(curRotation, targetRotation, Time.deltaTime * 25);
             if (Mathf.Abs(curRotation - targetRotation) < 1)
             {
                 isMoving = false;
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour {
     internal void forward()
     {
         if (isGround)
-            this.transform.Translate(0, 0, 0.2f);
+            this.transform.Translate(0, 0, 0.1f);
     }
 
 
@@ -90,11 +90,17 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.tag != "Platform")
+            return;
+
         stepPlatformCount++;
     }
     
     private void OnTriggerExit(Collider other)
     {
+        if (other.tag != "Platform")
+            return;
+
         stepPlatformCount--;
         if(stepPlatformCount <= 0)
         {

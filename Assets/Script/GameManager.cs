@@ -38,21 +38,21 @@ public class GameManager : MonoBehaviour {
         if (checkStartGame())
             return;
 
-        if(Input.GetButtonUp("Jump") && player.canAction())
+        if(Input.GetButtonUp("Jump"))
         {
-            player.jump();
+            checkJump();
         }
-        if (Input.GetButtonUp("Slide") && player.canAction())
+        if (Input.GetButtonUp("Slide"))
         {
-            player.slide();
+            checkSlide();
         }
-        if (Input.GetButtonUp("TurnLeft") && player.canAction())
+        if (Input.GetButtonUp("TurnLeft"))
         {
-            player.turnLeft();
+            checkTurnLeft();
         }
-        if (Input.GetButtonUp("TurnRight") && player.canAction())
+        if (Input.GetButtonUp("TurnRight"))
         {
-            player.turnRight();
+            checkTurnRight();
         }
         player.forward();
 
@@ -60,6 +60,34 @@ public class GameManager : MonoBehaviour {
 
         Score += Time.deltaTime * 10;
         setTextScore();
+    }
+
+
+    public void checkJump()
+    {
+        if(player.canAction())
+            player.jump();
+    }
+
+
+    public void checkSlide()
+    {
+        if (player.canAction())
+            player.slide();
+    }
+
+
+    public void checkTurnLeft()
+    {
+        if (player.canAction())
+            player.turnLeft();
+    }
+
+
+    public void checkTurnRight()
+    {
+        if (player.canAction())
+            player.turnRight();
     }
 
 

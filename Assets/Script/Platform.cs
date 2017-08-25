@@ -85,7 +85,6 @@ public class Platform : MonoBehaviour {
 
     private void createMoney()
     {
-        Debug.Log(getSize());
         for(int i = 0;i < moneyPerPlatform;i++)
         {
             GameObject money = Instantiate(Resources.Load("Dollar_bag")) as GameObject;
@@ -99,22 +98,6 @@ public class Platform : MonoBehaviour {
         }
     }
 
-
-    //把一个platform分成N个区域，然后随机出M个放Money
-    //private int[] GetMoneyIndexes()
-    //{
-    //    int[] result = new int[moneyPerPlatform];
-    //    ArrayList indexes = new ArrayList();
-    //    for (int i = 0; i < row * col; i++)
-    //        indexes.Add(i);
-    //    for (int i = 0; i < moneyPerPlatform; i++)
-    //    {
-    //        int index = Random.Range(0, indexes.Count);
-    //        result[i] = (int)indexes[index];
-    //        indexes.RemoveAt(index);
-    //    }    
-    //    return result;
-    //}
 
     private void OnTriggerEnter(Collider other)
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -13,8 +12,8 @@ public class PatternConfig {
     private int[] middle;
     private int[] right;
 
-    public static int patternLength = 10;
-    public static int patternCount = 3;
+    public const int patternLength = 10;
+    public const int patternCount = 3;
 
     private static List<PatternConfig> patterns = new List<PatternConfig>();
 
@@ -78,13 +77,20 @@ public class PatternConfig {
         StreamWriter sw = new StreamWriter(fs);
         foreach(PatternConfig config in patterns)
         {
-            string str = ArrToString(config.left) + ",";
-            str += ArrToString(config.middle) + ",";
+            string str = ArrToString(config.left);
+            str += ArrToString(config.middle);
             str += ArrToString(config.right);
             sw.WriteLine(str);
         }
         sw.Flush();
         sw.Close();
+    }
+
+
+    public static PatternConfig getRandomPattern()
+    {
+        int index = Random.Range(0, patterns.Count);
+        return patterns[index];
     }
 
 
@@ -128,29 +134,35 @@ public class PatternConfig {
 
     private static void parsePattern(string line)
     {
-        int[][] temp = new int[][] {};
-        char[] chars = line.ToCharArray();
-        
-        for(int i = 0;i < line.Length;i++)
+        int[][] result = new int[patternCount][];
+        int[] temp = new int[patternLength];
+
+        for (int i = 0;i < patternCount * patternLength;i++)
         {
             int index = (int)(i / patternLength);
-            temp[index][i - index * patternLength] = (int)chars[i];
+
+            if (i == index * patternLength)
+                temp = new int[patternLength];
+
+            if (i < line.Length)
+                temp[i - index * patternLength] = int.Parse(line.Substring(i,1));
+            else
+                temp[i - index * patternLength] = 0;
+
+            if (i == (index + 1) * patternLength - 1)
+                result[index] = temp;
         }
 
-        PatternConfig config = new PatternConfig(temp);
+        PatternConfig config = new PatternConfig(result);
         patterns.Add(config);
     }
 
 
-    private static string ArrToString(int[] arr)
+    public static string ArrToString(int[] arr)
     {
         string result = "";
         for (int i = 0;i < arr.Length; i++)
-        {
             result += arr[i];
-            result += ",";
-        }
-        result = result.Substring(0, result.Length - 1);
         return result;
     }
 }

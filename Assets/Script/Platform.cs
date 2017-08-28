@@ -85,17 +85,47 @@ public class Platform : MonoBehaviour {
 
     private void createMoney()
     {
-        for(int i = 0;i < moneyPerPlatform;i++)
+        //for(int i = 0;i < moneyPerPlatform;i++)
+        //{
+        //    GameObject money = Instantiate(Resources.Load("Dollar_bag")) as GameObject;
+        //    float x = Random.Range(0, getSize().x);
+        //    float z = Random.Range(0, getSize().z);
+
+        //    money.transform.SetParent(transform);
+        //    money.transform.localPosition = new Vector3(x - getSize().x / 2, 1, z - getSize().z / 2);
+
+        //    bags.Add(money);
+        //}
+
+        Vector3 size = getSize();
+        float dx = size.x / PatternConfig.patternCount;
+        float dz = size.z / PatternConfig.patternLength;
+        PatternConfig pattern = PatternConfig.getRandomPattern();
+        for(int i = 0;i < PatternConfig.patternCount;i++)
         {
-            GameObject money = Instantiate(Resources.Load("Dollar_bag")) as GameObject;
-            float x = Random.Range(0, getSize().x);
-            float z = Random.Range(0, getSize().z);
+            for (int j = 0; j < PatternConfig.patternLength; j++)
+            {
+                int type = pattern.GetPatternDetail(i, j);
+                GameObject obj = getObjByType(type);
 
-            money.transform.SetParent(transform);
-            money.transform.localPosition = new Vector3(x - getSize().x / 2, 1, z - getSize().z / 2);
+                if (obj == null)
+                    continue;
 
-            bags.Add(money);
+                float px = -size.x / 2 + dx / 2 + i * dx;
+                float pz = (-size.z / 2 + dz / 2 + j * dz) * -1;//前后倒置
+                obj.transform.SetParent(transform);
+                obj.transform.localPosition = new Vector3(px,1,pz);
+            }
         }
+    }
+
+
+    private GameObject getObjByType(int type)
+    {
+        GameObject obj = null;
+        if(type == 1)
+            obj = Instantiate(Resources.Load("Dollar_bag")) as GameObject;
+        return obj;
     }
 
 

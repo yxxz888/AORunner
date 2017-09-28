@@ -79,5 +79,7 @@ public class PatternEditor : EditorWindow
     {
         EditorGUI.LabelField(new Rect(150, 70, 100, 20), "0 = Empty");
         EditorGUI.LabelField(new Rect(150, 90, 100, 20), "1 = MoneyBag");
+        EditorGUI.LabelField(new Rect(150, 110, 100, 20), "2 = ModelBoard");
+        EditorGUI.LabelField(new Rect(150, 130, 100, 20), "3 = ModelStone");
     }
 }

@@ -125,6 +125,10 @@ public class Platform : MonoBehaviour {
         GameObject obj = null;
         if(type == 1)
             obj = Instantiate(Resources.Load("Dollar_bag")) as GameObject;
+        else if(type == 2)
+            obj = Instantiate(Resources.Load("ModelBoard")) as GameObject;
+        else if (type == 3)
+            obj = Instantiate(Resources.Load("ModelStone")) as GameObject;
         return obj;
     }
 

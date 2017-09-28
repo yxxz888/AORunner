@@ -90,27 +90,57 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "Platform")
-            return;
-
-        stepPlatformCount++;
+        if (other.tag == "Platform")
+            stepPlatformCount++;
+        else if(other.tag == "ModelBoard")
+        {
+            if (isNormal())
+                isGround = false;
+        }
+        else if (other.tag == "ModelStone")
+        {
+            if (isNormal())
+                isGround = false;
+        }
     }
     
     private void OnTriggerExit(Collider other)
     {
         if (other.tag != "Platform")
-            return;
-
-        stepPlatformCount--;
-        if(stepPlatformCount <= 0)
         {
-            handleFall();
+            stepPlatformCount--;
+            if (stepPlatformCount <= 0)
+            {
+                handleFall();
+            }
         }
+
     }
 
     private void handleFall()
     {
         isGround = false;
         animator.SetBool("Grounded", false);
+    }
+
+
+    private bool isSliding()
+    {
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        return info.IsTag("Slide");
+    }
+
+
+    private bool isJumping()
+    {
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        return info.IsTag("Jump");
+    }
+
+
+    private bool isNormal()
+    {
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        return info.IsTag("Normal");
     }
 }
